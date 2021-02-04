@@ -1,11 +1,11 @@
-import Main from "../components/layouts/Main";
+import DefaultMain from "../components/layouts/DefaultMain";
 
 export default function HealthCheck() {
     return (
         <div>
-            <Main active={2}>
+            <DefaultMain active={2}>
                 <p>profile page</p>
-            </Main>
+            </DefaultMain>
         </div>
     )
 }
