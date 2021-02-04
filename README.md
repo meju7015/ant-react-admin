@@ -1,1 +1,15 @@
-Ant 어드민이 적용되어있는 React nextjs 프로젝트입니다.
+## Installation
+```bash
+# Install Dependencies
+$ yarn install
+
+# Build
+$ yarn build
+
+# Run Server
+$ yarn start
+```
+
+## Description
+백엔드는 Django Prox 로 구현 \
+리액트 재밌당
