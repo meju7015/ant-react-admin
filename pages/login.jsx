@@ -1,3 +1,4 @@
+import * as React from "react";
 import Router from 'next/router'
 import 'antd/dist/antd.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -10,6 +11,7 @@ import {
     Button,
     Checkbox,
 } from "antd";
+import AuthenticationService from "../module/auth/AuthenticationService";
 
 const { Title } = Typography;
 
@@ -29,11 +31,29 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-export default function Login() {
+const Login = (c) => {
+    const [form] = Form.useForm();
+    const [email, password] = React.useState('');
 
-    const onFinish = (values) => {
-        Router.push('/');
-    };
+    let validate = {
+        checked: false
+    }
+
+    const onFinish = (value) => {
+        const auth = new AuthenticationService();
+
+        console.log('value::', value);
+
+        auth
+            .postJwtAuthentication(value.email, value.password)
+            .then((response) => {
+                auth.registerSuccessFullLoginForJwt(email, response.data.token)
+                console.log('success');
+
+            }).catch((error) => {
+                validate.checked = true;
+        });
+    }
 
     return (
         <>
@@ -44,27 +64,31 @@ export default function Login() {
                 </Col>
                 <Col span={4} style={cardStyle}>
                     <Form
-                        name="normal_login"
+                        form={form}
                         className="login-form"
-                        initialValues={{ remember: true }}
+                        initialValues={{remember: true}}
                         onFinish={onFinish}
                     >
                         <Form.Item
-                            name="username"
-                            rules={[{ required: true, message: '아이디를 입력해 주세요.' }]}
+                            name="email"
+                            rules={[{required: true, message: '아이디를 입력해 주세요.'}]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                            <Input
+                                prefix={<UserOutlined className="site-form-item-icon"/>}
+                                placeholder="Username"/>
                         </Form.Item>
 
                         <Form.Item
                             name="password"
-                            rules={[{ required: true, message: '패스워드를 입력해 주세요.' }]}
+                            rules={[
+                                {required: true, message: '패스워드를 입력해 주세요.'},
+                                {required: validate.checked, message: '아이디/패스워드를 확인해 주세요.'}
+                            ]}
                         >
                             <Input
-                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                prefix={<LockOutlined className="site-form-item-icon"/>}
                                 type="password"
-                                placeholder="Password"
-                            />
+                                placeholder="Password" />
                         </Form.Item>
 
                         <Form.Item>
@@ -88,3 +112,5 @@ export default function Login() {
         </>
     )
 }
+
+export default Login
