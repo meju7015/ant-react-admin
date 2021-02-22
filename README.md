@@ -1,3 +1,7 @@
+## Description
+백엔드는 Django Prox 로 구현 \
+리액트 재밌당
+
 ## Installation
 ```bash
 # Install Dependencies
@@ -10,6 +14,4 @@ $ yarn build
 $ yarn start
 ```
 
-## Description
-백엔드는 Django Prox 로 구현 \
-리액트 재밌당
+

@@ -1,6 +1,6 @@
-import DefaultMain from "../components/layouts/DefaultMain";
+import DefaultMain from "../../components/layouts/DefaultMain";
 
-export default function HealthCheck() {
+export default function Index() {
     return (
         <div>
             <DefaultMain active={2}>
