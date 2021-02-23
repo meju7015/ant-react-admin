@@ -1,5 +1,4 @@
 import * as React from "react";
-import Router from 'next/router'
 import 'antd/dist/antd.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {
@@ -9,9 +8,10 @@ import {
     Form,
     Input,
     Button,
-    Checkbox,
+    notification,
 } from "antd";
 import AuthenticationService from "../module/auth/AuthenticationService";
+import Router from "next/router"
 
 const { Title } = Typography;
 
@@ -31,27 +31,31 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
+const failedLogin = placement => {
+    notification.error({
+        message: '로그인 할 수 없습니다.',
+        description: '등록된 아이디, 또는 패스워드를 확인 하십시오.',
+        placement
+    })
+}
+
 const Login = (c) => {
     const [form] = Form.useForm();
-    const [email, password] = React.useState('');
 
     let validate = {
-        checked: false
+        checked: true
     }
 
-    const onFinish = (value) => {
+    const onFinish = async (value) => {
         const auth = new AuthenticationService();
-
-        console.log('value::', value);
 
         auth
             .postJwtAuthentication(value.email, value.password)
             .then((response) => {
-                auth.registerSuccessFullLoginForJwt(email, response.data.token)
-                console.log('success');
-
-            }).catch((error) => {
-                validate.checked = true;
+                auth.registerSuccessFullLoginForJwt(value.email, response.data.data)
+                Router.push('/');
+            }).catch(() => {
+                failedLogin('topRight');
         });
     }
 
@@ -81,7 +85,7 @@ const Login = (c) => {
                         <Form.Item
                             name="password"
                             rules={[
-                                {required: true, message: '패스워드를 입력해 주세요.'},
+                                /*{required: true, message: '패스워드를 입력해 주세요.'},*/
                                 {required: validate.checked, message: '아이디/패스워드를 확인해 주세요.'}
                             ]}
                         >

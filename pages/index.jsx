@@ -14,7 +14,6 @@ const {Content} = Layout;
 export default class Home extends React.Component {
 
     siteLayoutContentStyle = {
-        padding: 24,
         background: '#fff',
     }
 

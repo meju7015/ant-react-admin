@@ -3,9 +3,11 @@ import {Layout} from 'antd';
 import * as React from "react";
 import 'antd/dist/antd.css';
 
+import Router from 'next/router';
 import DefaultFooter from "./DefaultFooter";
 import DefaultSider from "./DefaultSider";
 import DefaultHeader from "./DefaultHeader";
+import {RouterContext} from "next/dist/next-server/lib/router-context";
 
 const {Content} = Layout;
 
@@ -31,6 +33,16 @@ export default class DefaultMain extends React.Component {
         this.title = this.state.collapsed
             ? process.env.APP_NAME
             : process.env.APP_NAME.charAt(0);
+    }
+
+    middleware = () => {
+        if (!localStorage.getItem('token') || !localStorage.getItem('authenticatedUser')) {
+            Router.push('/login');
+        }
+    }
+
+    componentDidMount() {
+        this.middleware();
     }
 
     render() {

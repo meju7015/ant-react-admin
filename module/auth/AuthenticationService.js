@@ -1,10 +1,10 @@
 import axios from "axios";
 
-axios.create({
-    baseURL: process.env.API_URL
-})
-
 class AuthenticationService {
+
+    axiosController = axios.create({
+        baseURL: process.env.API_URL
+    });
 
     /**
      * 로그인
@@ -14,8 +14,7 @@ class AuthenticationService {
      * @returns {Promise<AxiosResponse<any>>}
      */
     postJwtAuthentication(email, password) {
-        console.log(process.env.API_URL);
-        return axios.post('/v1/signin', {
+        return this.axiosController.post('/v1/signin', {
             email: email,
             password: password
         });
