@@ -15,21 +15,9 @@ import Router from "next/router"
 
 const { Title } = Typography;
 
-const cardStyle = {
-}
-
 const loginBodyStyle = {
     height: "100%",
 }
-
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-};
 
 const failedLogin = placement => {
     notification.error({
@@ -64,9 +52,10 @@ const Login = (c) => {
             <Row justify="center" align="middle" style={loginBodyStyle}>
                 <Col span={6}>
                     <Title>LOGIN</Title>
+                    <p>계정 생성은 불가능 합니다.</p>
                     <p>❤ 👍 😉</p>
                 </Col>
-                <Col span={4} style={cardStyle}>
+                <Col span={4}>
                     <Form
                         form={form}
                         className="login-form"
